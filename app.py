@@ -12,7 +12,7 @@ app = Flask(__name__)
 connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
                              user='m462isa2dh6cvxue',
                              password='jfl50lzw43d657yq',
-                             db='db',
+                             db='rumyr9ysvijlvzqd',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 
