@@ -4,7 +4,6 @@ from flask import request
 import pypyodbc
 
 app = Flask(__name__)
-
 myConnection = pypyodbc.connect(os.environ['DATABASE_URL'])
 myCursor = myConnection.cursor()
 myCursor.executre('SELECT * FROM Tutors')
