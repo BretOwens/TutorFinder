@@ -21,7 +21,7 @@ connection.close()
 
 @app.route('/')
 def hello_world():
-	return render_template('layout.html', username=result["TutorUsername"])
+	return render_template('index.html', username=result["TutorUsername"])
 
 if __name__ == '__main__':
     app.run(debug=True)
