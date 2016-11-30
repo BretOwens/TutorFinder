@@ -2,14 +2,15 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://m462isa2dh6cvxue:jfl50lzw43d657yq@nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/rumyr9ysvijlvzqd?sslca=rds-combined-ca-bundle.pem&ssl-verify-server-cert'
 db = SQLAlchemy(app)
 
-result = db.engine.execute("SELECT * FROM Tutors")
-
+sql = text('select * from tutors')
+result = db.engine.execute(sql)
 names = []
 for row in result:
     names.append(row[0])
