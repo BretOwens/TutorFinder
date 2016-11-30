@@ -1,11 +1,11 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-import pyodbc
+import pypyodbc
 
 app = Flask(__name__)
 
-myConnection = pyodbc.connect(os.environ['DATABASE_URL'])
+myConnection = pypyodbc.connect(os.environ['DATABASE_URL'])
 myCursor = myConnection.cursor()
 myCursor.executre('SELECT * FROM Tutors')
 rows = myCursor.fetchall();
