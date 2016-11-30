@@ -13,20 +13,15 @@ connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.a
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 
-try:
-    with connection.cursor() as cursor:
-        # Read a single record
-        sql = "SELECT * FROM Tutor"
-        cursor.execute(sql)
-        result = cursor.fetchone()
-        print(result)
-finally:
-    connection.close()
+cursor = connection.cursor()
+sql = "SELECT * FROM Tutor"
+cursor.execute(sql)
+result = cursor.fetchone()
+connection.close()
 
 @app.route('/')
 def hello_world():
-    #return 'Hello World! - Michael'
-	return render_template('layout.html')
+	return render_template('layout.html', username=result["TutorUsername"])
 
 if __name__ == '__main__':
     app.run(debug=True)
