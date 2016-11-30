@@ -5,9 +5,6 @@ import pymysql
 
 app = Flask(__name__)
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://m462isa2dh6cvxue:jfl50lzw43d657yq@nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/rumyr9ysvijlvzqd?sslca=rds-combined-ca-bundle.pem&ssl-verify-server-cert'
-#db = SQLAlchemy(app)
-
 # Connect to the database
 connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
                              user='m462isa2dh6cvxue',
@@ -15,6 +12,16 @@ connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.a
                              db='rumyr9ysvijlvzqd',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
+
+try:
+    with connection.cursor() as cursor:
+        # Read a single record
+        sql = "SELECT * FROM Tutor"
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        print(result)
+finally:
+    connection.close()
 
 @app.route('/')
 def hello_world():
