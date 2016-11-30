@@ -11,11 +11,6 @@ db = SQLAlchemy(app)
 
 sql = text('select * from tutors')
 result = db.engine.execute(sql)
-names = []
-for row in result:
-    names.append(row[0])
-
-print names
 
 @app.route('/')
 def hello_world():
