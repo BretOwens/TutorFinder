@@ -1,16 +1,20 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
+import pymysql
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://m462isa2dh6cvxue:jfl50lzw43d657yq@nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/rumyr9ysvijlvzqd?sslca=rds-combined-ca-bundle.pem&ssl-verify-server-cert'
-db = SQLAlchemy(app)
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://m462isa2dh6cvxue:jfl50lzw43d657yq@nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/rumyr9ysvijlvzqd?sslca=rds-combined-ca-bundle.pem&ssl-verify-server-cert'
+#db = SQLAlchemy(app)
 
-sql = text('select * from tutors')
-result = db.engine.execute(sql)
+# Connect to the database
+connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+                             user='m462isa2dh6cvxue',
+                             password='jfl50lzw43d657yq',
+                             db='db',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
 
 @app.route('/')
 def hello_world():
