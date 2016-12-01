@@ -1,12 +1,38 @@
 {% extends "layout.html" %}
 {% block content %}
-       <div class="row">
-            <div class="col-lg-12 text-center">
-                <h1>Welcome to TutorFinder</h1>
-                <p class="lead">View all the tutors below</p>
-                <ul class="list-unstyled">
-                    <li>{{username}}</li>
-                </ul>
-            </div>
-        </div>
+	<style>
+			.tutor-card {
+			  border: 1px solid #cccccc;
+			  background: #f8f8f8;
+			  padding: 10px;
+			  border-radius: 4px;
+			  width: 80%;
+			  margin: 0 auto;
+			}
+			.tutor-name {
+			  font-size: 22px;
+			}
+			.tutor-email {
+			}
+			.tutor-rating {
+			}		
+	</style>
+
+	<div class="col-lg-12 text-center">
+		<h1>Welcome to TutorFinder</h1>
+		<p class="lead">View all the tutors below</p>
+			{% for result in results %}
+			<div class="row tutor-card" style="margin-bottom: 12px;">
+				<div class="col-xs tutor-name">
+					{{ result['TutorName'] }}
+				</div>
+				<div class="col-xs tutor-email">
+					{{ result['TutorUsername'] }}
+				</div>
+				<div class="col-xs tutor-rating">
+					{{ result['TutorRating'] }}
+				</div>
+			</div>					
+			{% endfor %}
+	</div>
 {% endblock %}

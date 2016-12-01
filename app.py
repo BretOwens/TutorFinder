@@ -68,11 +68,13 @@ def signup_form():
 
 @app.route('/students/')
 def students_page():
-	return render_template('students.html') 
+	results = execsql("SELECT * FROM Student")
+	return render_template('students.html', results=results) 
 
 @app.route('/tutors/')
 def tutors_page():
-	return render_template('tutors.html')
+	results = execsql("SELECT * FROM Tutor")
+	return render_template('tutors.html', results=results)
 
 if __name__ == '__main__':
     app.run(debug=True)
