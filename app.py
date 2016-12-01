@@ -39,9 +39,9 @@ def students_page():
 def tutors_page():
 	return render_template('tutors.html', username=result["TutorUsername"])
 
-@app.route('/signup/form_post', methods=['POST'])
+@app.route('/signup/signup_post', methods=['POST'])
 def complete_form():
-	data = request.form['data']
+	data = request.form
 	return render_template('success.html', data=data)
 
 if __name__ == '__main__':

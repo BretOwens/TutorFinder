@@ -6,10 +6,49 @@
                 <p class="lead">Sign-Up Below</p>
             </div>
 			<div>
-				<form action="form_post" method="post">
-					Enter Data: <input type="text" name="data"><br/>
+<!--
+				<form action="signup_post" method="post">
+					Name: <input type="text" name="username"><br/>
+					Password: <input type="text" name="password"><br/>
+					Account Type: <select name="type">
+									<option>Tutor</option>
+									<option>Student</option>
+								  </select>
 					<input type="submit" value="Submit">
 				</form>
+-->
+
+				<form class="form-horizontal" action="signup_post" method="post">
+				  <div class="form-group">
+					<label for="email" class="col-sm-2 control-label">Email</label>
+					<div class="col-sm-10">
+					  <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label for="password" class="col-sm-2 control-label">Password</label>
+					<div class="col-sm-10">
+					  <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+					</div>
+				  </div>
+   				  <div class="form-group">
+				  	<label for="type" class="col-sm-2 control-label">Select list:</label>
+					<div class="col-sm-10">
+				   	  <select class="form-control" id="type" name="type">
+						<option>Tutor</option>
+						<option>Student</option>
+				  	  </select>
+					</div>
+				  </div>
+				  <div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+					  <button type="submit" class="btn btn-default">Submit</button>
+					</div>
+				  </div>
+				</form>
+
+
 			</div>
         </div>
+
 {% endblock %}
