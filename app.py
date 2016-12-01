@@ -6,7 +6,6 @@ import pymysql
 app = Flask(__name__)
 
 def execsql(query):
-	# Connect to the database
 	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
              user='m462isa2dh6cvxue',
              password='jfl50lzw43d657yq',
@@ -16,12 +15,32 @@ def execsql(query):
 			 autocommit=True)
 
 	cursor = connection.cursor()
-	#sql = "SELECT * FROM Tutor"
 	cursor.execute(query)
 	results = cursor.fetchall()
 	connection.close()
 	cursor.close()
 	return results
+
+def insertSignup(accType, email, password, name):
+	print email, password, name, accType
+	print type(email), type(password), type(name), type(accType)
+	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+             user='m462isa2dh6cvxue',
+             password='jfl50lzw43d657yq',
+             db='rumyr9ysvijlvzqd',
+             charset='utf8mb4',
+             cursorclass=pymysql.cursors.DictCursor,
+			 autocommit=True)
+	cursor = connection.cursor()
+	if (accType == "Tutor"):
+		cursor.execute("INSERT INTO Tutor VALUES ('" + email + "', '" + password + "', '" + name + "', " + str(0) + ")")
+	elif (accType == "Student"):
+		cursor.execute("INSERT INTO Student VALUES ('" + email + "', '" + password + "', '" + name + "')")
+	connection.commit()
+	connection.close()
+	cursor.close()
+	return
+
 
 @app.route('/')
 def home_page():
@@ -44,6 +63,7 @@ def signup_page():
 @app.route('/signup/signup_post', methods=['POST'])
 def signup_form():
 	data = request.form
+	insertSignup(str(data['type']), str(data["email"]), str(data["password"]), str(data["name"]))
 	return render_template('success.html')
 
 @app.route('/students/')
