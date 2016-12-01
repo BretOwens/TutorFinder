@@ -20,12 +20,24 @@ result = cursor.fetchone()
 connection.close()
 
 @app.route('/')
-def hello_world():
+def home_page():
 	return render_template('index.html', username=result["TutorUsername"])
 
 @app.route('/submit/')
 def submit_page():
 	return render_template('submit.html', username=result["TutorUsername"])
+
+@app.route('/signup/')
+def signup_page():
+	return render_template('signup.html', username=result["TutorUsername"])
+
+@app.route('/students/')
+def students_page():
+	return render_template('students.html', username=result["TutorUsername"])
+
+@app.route('/tutors/')
+def tutors_page():
+	return render_template('tutors.html', username=result["TutorUsername"])
 
 if __name__ == '__main__':
     app.run(debug=True)
