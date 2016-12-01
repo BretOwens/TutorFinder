@@ -23,5 +23,9 @@ connection.close()
 def hello_world():
 	return render_template('index.html', username=result["TutorUsername"])
 
+@app.route('/submit/')
+def submit_page():
+	return render_template('submit.html', username=result["TutorUsername"])
+
 if __name__ == '__main__':
     app.run(debug=True)
