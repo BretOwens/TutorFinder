@@ -32,9 +32,19 @@ def submit_page():
 	results = execsql("SELECT CourseCode FROM Course")
 	return render_template('submit.html', results=results)
 
+@app.route('/submit/submit_post', methods=['POST'])
+def submit_form():
+	data = request.form
+	return render_template('success.html')
+
 @app.route('/signup/')
 def signup_page():
 	return render_template('signup.html')
+
+@app.route('/signup/signup_post', methods=['POST'])
+def signup_form():
+	data = request.form
+	return render_template('success.html')
 
 @app.route('/students/')
 def students_page():
@@ -43,11 +53,6 @@ def students_page():
 @app.route('/tutors/')
 def tutors_page():
 	return render_template('tutors.html')
-
-@app.route('/signup/signup_post', methods=['POST'])
-def complete_form():
-	data = request.form
-	return render_template('success.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
