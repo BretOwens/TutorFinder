@@ -22,8 +22,6 @@ def execsql(query):
 	return results
 
 def insertSignup(accType, email, password, name):
-	print email, password, name, accType
-	print type(email), type(password), type(name), type(accType)
 	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
              user='m462isa2dh6cvxue',
              password='jfl50lzw43d657yq',
@@ -41,6 +39,23 @@ def insertSignup(accType, email, password, name):
 	cursor.close()
 	return
 
+def updateAccount(accType, email, password, name):
+	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+             user='m462isa2dh6cvxue',
+             password='jfl50lzw43d657yq',
+             db='rumyr9ysvijlvzqd',
+             charset='utf8mb4',
+             cursorclass=pymysql.cursors.DictCursor,
+			 autocommit=True)
+	cursor = connection.cursor()
+	if (accType == "Tutor"):
+		cursor.execute("UPDATE Tutor SET TutorName='" + name + "' WHERE TutorUsername='" + email + "'")
+	elif (accType == "Student"):
+		cursor.execute("UPDATE Student SET StudentName='" + name + "' WHERE StudentUsername='" + email + "'")
+	connection.commit()
+	connection.close()
+	cursor.close()
+	return
 
 @app.route('/')
 def home_page():
@@ -75,6 +90,16 @@ def students_page():
 def tutors_page():
 	results = execsql("SELECT * FROM Tutor")
 	return render_template('tutors.html', results=results)
+
+@app.route('/update/')
+def update_page():
+	return render_template('update.html')
+
+@app.route('/update/update_post', methods=['POST'])
+def update_form():
+	data = request.form
+	updateAccount(str(data['type']), str(data["email"]), str(data["password"]), str(data["name"]))
+	return render_template('success.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
