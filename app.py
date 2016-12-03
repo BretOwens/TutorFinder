@@ -39,7 +39,7 @@ def insertSignup(accType, email, password, name):
 	cursor.close()
 	return
 
-def updateAccount(accType, email, password, name):
+def updateAccount(accType, email, name):
 	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
              user='m462isa2dh6cvxue',
              password='jfl50lzw43d657yq',
@@ -108,6 +108,19 @@ def submit_form():
 	data = request.form
 	return render_template('success.html')
 
+@app.route('/signin/')
+def signin_page():
+	return render_template('signin.html')
+
+@app.route('/signin/signin_post', methods=['POST'])
+def signin_form():
+	data = request.form
+	results = execsql("SELECT * FROM Tutor WHERE TutorUsername='" + str(data['email']) + "'")
+	name = str(results[0]['TutorName'])
+	accType = str(data['type'])
+	username = str(results[0]['TutorUsername'])
+	return render_template('account.html', name=name, username=username, accType=accType)
+
 @app.route('/signup/')
 def signup_page():
 	return render_template('signup.html')
@@ -116,6 +129,12 @@ def signup_page():
 def signup_form():
 	data = request.form
 	insertSignup(str(data['type']), str(data["email"]), str(data["password"]), str(data["name"]))
+	return render_template('success.html')
+
+@app.route('/signin/update_post', methods=['POST'])
+def update_form():
+	data = request.form
+	updateAccount(str(data['type']), str(data["email"]), str(data["name"]))
 	return render_template('success.html')
 
 @app.route('/students/')
@@ -128,15 +147,16 @@ def tutors_page():
 	results = execsql("SELECT * FROM Tutor")
 	return render_template('tutors.html', results=results)
 
+@app.route('/tutors/<user>', methods=['GET'])
+def tutors_user_page(user):
+	results = execsql("SELECT * FROM Tutor WHERE TutorUsername='" + user + "'")
+	name = str(results[0]['TutorName'])
+	username = str(results[0]['TutorUsername'])
+	return render_template('tutors_user.html', name=name, username=username)
+
 @app.route('/update/')
 def update_page():
 	return render_template('update.html')
-
-@app.route('/update/update_post', methods=['POST'])
-def update_form():
-	data = request.form
-	updateAccount(str(data['type']), str(data["email"]), str(data["password"]), str(data["name"]))
-	return render_template('success.html')
 
 @app.route('/delete/')
 def delete_page():
@@ -147,7 +167,6 @@ def delete_form():
 	data = request.form
 	deleteAccount(str(data['type']), str(data["email"]), str(data["password"]))
 	return render_template('success.html')
-
 
 @app.route('/search_post', methods=['POST'])
 def search_form():

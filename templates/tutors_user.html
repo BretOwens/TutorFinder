@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+	<style>
+			.nolink {
+    			text-decoration: none !important;
+			}
+			.tutor-card {
+			  border: 1px solid #cccccc;
+			  background: #f8f8f8;
+			  padding: 10px;
+			  border-radius: 4px;
+			  width: 80%;
+			  margin: 0 auto;
+			}
+			.tutor-name {
+			  font-size: 22px;
+			}
+			.tutor-email {
+			}
+			.tutor-rating {
+			}		
+	</style>
+
+	<div class="col-lg-12 text-center">
+		<h1>Welcome to TutorFinder</h1>
+			<p class="lead">{{ name }}'s Account Page</p>
+				<div class="row tutor-card" style="margin-bottom: 12px;">
+					<div class="col-xs tutor-email">
+						Email: {{ username }}
+					</div>
+				</div>
+	</div>
+{% endblock %}

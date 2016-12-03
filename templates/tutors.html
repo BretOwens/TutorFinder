@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
 	<style>
+			.nolink {
+			    /*background-color: #E4F5F8;
+    			border: 1px solid #C0DEED; */
+    			text-decoration: none !important;
+			}
 			.tutor-card {
 			  border: 1px solid #cccccc;
 			  background: #f8f8f8;
@@ -22,17 +27,19 @@
 		<h1>Welcome to TutorFinder</h1>
 		<p class="lead">View all the tutors below</p>
 			{% for result in results %}
-			<div class="row tutor-card" style="margin-bottom: 12px;">
-				<div class="col-xs tutor-name">
-					{{ result['TutorName'] }}
-				</div>
-				<div class="col-xs tutor-email">
-					Email: {{ result['TutorUsername'] }}
-				</div>
-				<div class="col-xs tutor-rating">
-					Rating: {{ result['TutorRating'] }}
-				</div>
-			</div>					
+				<a href="/tutors/{{ result['TutorUsername'] }}" class="nolink">
+					<div class="row tutor-card" style="margin-bottom: 12px;">
+						<div class="col-xs tutor-name nolink">
+							{{ result['TutorName'] }}
+						</div>
+						<div class="col-xs tutor-email">
+							Email: {{ result['TutorUsername'] }}
+						</div>
+						<div class="col-xs tutor-rating">
+							Rating: {{ result['TutorRating'] }}
+						</div>
+					</div>
+				</a>					
 			{% endfor %}
 	</div>
 {% endblock %}
