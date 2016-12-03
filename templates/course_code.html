@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 	<style>
+			.nolink {
+    			text-decoration: none !important;
+			}
 			.tutor-card {
 			  border: 1px solid #cccccc;
 			  background: #f8f8f8;
@@ -16,13 +19,11 @@
 
 	<div class="col-lg-12 text-center">
 		<h1>Welcome to TutorFinder</h1>
-			<p class="lead">Welcome Back {{ name }}!</p>
-			<p><p/>
-			<div>
-				{% include 'update.html' %}
-				{% include 'delete.html' %}
-				{% include 'add_course.html' %}
-			<div>
-		
+			<p class="lead">Tutors for {{course }}</p>
+				<div class="row tutor-card" style="margin-bottom: 12px;">
+					<div class="col-xs tutor-email">
+						{{ description }}
+					</div>
+				</div>
 	</div>
 {% endblock %}

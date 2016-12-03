@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+	<style>
+			.nolink {
+    			text-decoration: none !important;
+			}
+			.tutor-card {
+			  border: 1px solid #cccccc;
+			  background: #f8f8f8;
+			  padding: 10px;
+			  border-radius: 4px;
+			  width: 80%;
+			  margin: 0 auto;
+			}
+			.tutor-name {
+			  font-size: 22px;
+			}		
+	</style>
+
+	<div class="col-lg-12 text-center">
+		<h1>Welcome to TutorFinder</h1>
+		<p class="lead">View all the courses below</p>
+			{% for result in results %}
+				<a href="/courses/{{ result['CourseCode'] }}" class="nolink">
+					<div class="row tutor-card" style="margin-bottom: 12px;">
+						<div class="col-xs tutor-name nolink">
+							{{ result['CourseCode'] }}
+						</div>
+						<div class="col-xs tutor-name nolink" style="font-size: 14px;">
+							{{ result['CourseDescription'] }}
+						</div>
+					</div>
+				</a>					
+			{% endfor %}
+	</div>
+{% endblock %}
