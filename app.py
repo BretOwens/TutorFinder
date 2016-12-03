@@ -85,13 +85,14 @@ def search(accType, search):
 			 autocommit=True)
 	cursor = connection.cursor()
 	if (accType == "Tutor"):
-		cursor.execute("UPDATE Tutor SET TutorName='" + name + "' WHERE TutorUsername='" + email + "'")
+		cursor.execute("SELECT TutorUsername FROM Tutor WHERE TutorUsername LIKE '" + search + "%'")
 	elif (accType == "Student"):
-		cursor.execute("UPDATE Student SET StudentName='" + name + "' WHERE StudentUsername='" + email + "'")
+		cursor.execute("SELECT StudentUsername FROM Student WHERE StudentUsername LIKE '" + search + "%'")
+	results = cursor.fetchall()
 	connection.commit()
 	connection.close()
 	cursor.close()
-	return
+	return results
 
 @app.route('/')
 def home_page():
@@ -151,8 +152,8 @@ def delete_form():
 @app.route('/search_post', methods=['POST'])
 def search_form():
 	data = request.form
-	search(str(data['type']), str(data["search"]))
-	return render_template('success.html')
+	results = search(str(data['type']), str(data["search"]))
+	return render_template('results.html', results=results)
 
 if __name__ == '__main__':
     app.run(debug=True)
