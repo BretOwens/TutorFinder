@@ -57,6 +57,24 @@ def updateAccount(accType, email, password, name):
 	cursor.close()
 	return
 
+def search(accType, search):
+	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+             user='m462isa2dh6cvxue',
+             password='jfl50lzw43d657yq',
+             db='rumyr9ysvijlvzqd',
+             charset='utf8mb4',
+             cursorclass=pymysql.cursors.DictCursor,
+			 autocommit=True)
+	cursor = connection.cursor()
+	if (accType == "Tutor"):
+		cursor.execute("UPDATE Tutor SET TutorName='" + name + "' WHERE TutorUsername='" + email + "'")
+	elif (accType == "Student"):
+		cursor.execute("UPDATE Student SET StudentName='" + name + "' WHERE StudentUsername='" + email + "'")
+	connection.commit()
+	connection.close()
+	cursor.close()
+	return
+
 @app.route('/')
 def home_page():
 	return render_template('index.html')
@@ -99,6 +117,12 @@ def update_page():
 def update_form():
 	data = request.form
 	updateAccount(str(data['type']), str(data["email"]), str(data["password"]), str(data["name"]))
+	return render_template('success.html')
+
+@app.route('/search_post', methods=['POST'])
+def search_form():
+	data = request.form
+	search(str(data['type']), str(data["search"]))
 	return render_template('success.html')
 
 if __name__ == '__main__':
