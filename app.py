@@ -57,6 +57,24 @@ def updateAccount(accType, email, password, name):
 	cursor.close()
 	return
 
+def deleteAccount(accType, email, password):
+	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+             user='m462isa2dh6cvxue',
+             password='jfl50lzw43d657yq',
+             db='rumyr9ysvijlvzqd',
+             charset='utf8mb4',
+             cursorclass=pymysql.cursors.DictCursor,
+			 autocommit=True)
+	cursor = connection.cursor()
+	if (accType == "Tutor"):
+		cursor.execute("DELETE FROM Tutor WHERE TutorUsername='" + email + "'")
+	elif (accType == "Student"):
+		cursor.execute("DELETE FROM Student WHERE StudentUsername='" + email + "'")
+	connection.commit()
+	connection.close()
+	cursor.close()
+	return
+
 def search(accType, search):
 	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
              user='m462isa2dh6cvxue',
@@ -118,6 +136,17 @@ def update_form():
 	data = request.form
 	updateAccount(str(data['type']), str(data["email"]), str(data["password"]), str(data["name"]))
 	return render_template('success.html')
+
+@app.route('/delete/')
+def delete_page():
+	return render_template('delete.html')
+
+@app.route('/delete/delete_post', methods=['POST'])
+def delete_form():
+	data = request.form
+	deleteAccount(str(data['type']), str(data["email"]), str(data["password"]))
+	return render_template('success.html')
+
 
 @app.route('/search_post', methods=['POST'])
 def search_form():
