@@ -57,7 +57,7 @@ def updateAccount(accType, email, name):
 	cursor.close()
 	return
 
-def deleteAccount(accType, email, password):
+def deleteAccount(accType, email):
 	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
              user='m462isa2dh6cvxue',
              password='jfl50lzw43d657yq',
@@ -137,6 +137,12 @@ def update_form():
 	updateAccount(str(data['type']), str(data["email"]), str(data["name"]))
 	return render_template('success.html')
 
+@app.route('/signin/delete_post', methods=['POST'])
+def delete_form():
+	data = request.form
+	deleteAccount(str(data['type']), str(data["email"]))
+	return render_template('success.html')
+
 @app.route('/students/')
 def students_page():
 	results = execsql("SELECT * FROM Student")
@@ -157,16 +163,6 @@ def tutors_user_page(user):
 @app.route('/update/')
 def update_page():
 	return render_template('update.html')
-
-@app.route('/delete/')
-def delete_page():
-	return render_template('delete.html')
-
-@app.route('/delete/delete_post', methods=['POST'])
-def delete_form():
-	data = request.form
-	deleteAccount(str(data['type']), str(data["email"]), str(data["password"]))
-	return render_template('success.html')
 
 @app.route('/search_post', methods=['POST'])
 def search_form():
