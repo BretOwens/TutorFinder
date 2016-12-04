@@ -72,6 +72,23 @@ def updateAccount(accType, email, name):
 	cursor.close()
 	return
 
+def rate(tutor, rating):
+	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+             user='m462isa2dh6cvxue',
+             password='jfl50lzw43d657yq',
+             db='rumyr9ysvijlvzqd',
+             charset='utf8mb4',
+             cursorclass=pymysql.cursors.DictCursor,
+			 autocommit=True)
+	cursor = connection.cursor()
+	currentRating = cursor.execute("SELECT TutorRating FROM Tutor WHERE TutorUsername='" + tutor + "'")
+	updatedRating = (int(currentRating) + int(rating)) / 2
+	cursor.execute("UPDATE Tutor SET TutorRating='" + str(updatedRating) + "' WHERE TutorUsername='" + tutor + "'")
+	connection.commit()
+	connection.close()
+	cursor.close()
+	return
+
 def deleteAccount(accType, email):
 	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
              user='m462isa2dh6cvxue',
@@ -137,14 +154,19 @@ def signin_page():
 def signin_form():
 	data = request.form
 	accType = str(data['type'])
-
-	courses = execsql("SELECT CourseCode FROM Course")
-
-	results = execsql("SELECT * FROM Tutor WHERE TutorUsername='" + str(data['email']) + "'")
-	name = str(results[0]['TutorName'])
-	username = str(results[0]['TutorUsername'])
-
-	return render_template('account.html', name=name, username=username, accType=accType, courses=courses)
+	if (accType == "Tutor"):
+		courses = execsql("SELECT CourseCode FROM Course")
+		results = execsql("SELECT * FROM Tutor WHERE TutorUsername='" + str(data['email']) + "'")
+		name = str(results[0]['TutorName'])
+		username = str(results[0]['TutorUsername'])
+		return render_template('account_tutor.html', name=name, username=username, accType=accType, courses=courses)
+	elif (accType == "Student"):
+		courses = execsql("SELECT CourseCode FROM Course")
+		tutors = execsql("SELECT TutorUsername FROM Tutor")
+		results = execsql("SELECT * FROM Student WHERE StudentUsername='" + str(data['email']) + "'")
+		name = str(results[0]['StudentName'])
+		username = str(results[0]['StudentUsername'])
+		return render_template('account_student.html', name=name, username=username, accType=accType, courses=courses, tutors=tutors)
 
 @app.route('/signin/update_post', methods=['POST'])
 def update_form():
@@ -162,6 +184,12 @@ def delete_form():
 def add_course_form():
 	data = request.form
 	addCourse(str(data["email"]), str(data["course"]), str(data["pay"]))
+	return render_template('success.html')
+
+@app.route('/signin/rating_post', methods=['POST'])
+def rating_form():
+	data = request.form
+	rate(str(data["tutor"]), str(data["rating"]))
 	return render_template('success.html')
 
 @app.route('/students/')
