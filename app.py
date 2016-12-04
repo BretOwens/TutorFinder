@@ -90,7 +90,7 @@ def deleteAccount(accType, email):
 	cursor.close()
 	return
 
-def search(accType, search):
+def search(accType, search, rating, price, course):
 	connection = pymysql.connect(host='nt71li6axbkq1q6a.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
              user='m462isa2dh6cvxue',
              password='jfl50lzw43d657yq',
@@ -100,7 +100,7 @@ def search(accType, search):
 			 autocommit=True)
 	cursor = connection.cursor()
 	if (accType == "Tutor"):
-		cursor.execute("SELECT TutorUsername FROM Tutor WHERE TutorUsername LIKE '" + search + "%'")
+		cursor.execute("SELECT * FROM Tutor, Can_Tutor WHERE Tutor.TutorUsername LIKE '" + search + "%' AND Can_Tutor.TutorUsername = Tutor.TutorUsername AND Rate <= '" + price + "' AND TutorRating >= '" + rating + "' AND CourseCode = '" + course + "'")
 	elif (accType == "Student"):
 		cursor.execute("SELECT StudentUsername FROM Student WHERE StudentUsername LIKE '" + search + "%'")
 	results = cursor.fetchall()
@@ -111,7 +111,8 @@ def search(accType, search):
 
 @app.route('/')
 def home_page():
-	return render_template('index.html')
+	courses = execsql("SELECT CourseCode FROM Course")
+	return render_template('index.html', courses=courses)
 
 @app.route('/submit/submit_post', methods=['POST'])
 def submit_form():
@@ -195,7 +196,7 @@ def course_code_page(course):
 @app.route('/search_post', methods=['POST'])
 def search_form():
 	data = request.form
-	results = search(str(data['type']), str(data["search"]))
+	results = search(str(data['type']), str(data["search"]), str(data["rating"]), str(data["price"]), str(data["course"]))
 	return render_template('results.html', results=results)
 
 if __name__ == '__main__':
