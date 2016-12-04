@@ -188,8 +188,9 @@ def courses_page():
 @app.route('/courses/<course>', methods=['GET'])
 def course_code_page(course):
 	results = execsql("SELECT * FROM Course WHERE CourseCode='" + course + "'")
+	tutors = execsql("SELECT * FROM Can_Tutor, Tutor  WHERE CourseCode='" + course + "' AND Can_Tutor.TutorUsername = Tutor.TutorUsername")
 	description = str(results[0]['CourseDescription'])
-	return render_template('course_code.html', course=course, description=description)
+	return render_template('course_code.html', course=course, description=description, tutors=tutors)
 
 @app.route('/search_post', methods=['POST'])
 def search_form():
