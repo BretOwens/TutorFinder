@@ -82,7 +82,7 @@ def rate(tutor, rating):
 			 autocommit=True)
 	cursor = connection.cursor()
 	currentRating = cursor.execute("SELECT TutorRating FROM Tutor WHERE TutorUsername='" + tutor + "'")
-	updatedRating = (int(currentRating) + int(rating)) / 2
+	updatedRating = ((int(currentRating) + int(rating)) / 2.0)
 	cursor.execute("UPDATE Tutor SET TutorRating='" + str(updatedRating) + "' WHERE TutorUsername='" + tutor + "'")
 	connection.commit()
 	connection.close()
