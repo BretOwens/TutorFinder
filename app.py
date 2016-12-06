@@ -204,10 +204,11 @@ def tutors_page():
 
 @app.route('/tutors/<user>', methods=['GET'])
 def tutors_user_page(user):
-	results = execsql("SELECT * FROM Tutor WHERE TutorUsername='" + user + "'")
+	results = execsql("SELECT * FROM Tutor, Can_Tutor WHERE Tutor.TutorUsername='" + user + "' AND Tutor.TutorUsername = Can_Tutor.TutorUsername")
 	name = str(results[0]['TutorName'])
 	username = str(results[0]['TutorUsername'])
-	return render_template('tutors_user.html', name=name, username=username)
+	rating = str(results[0]['TutorRating'])
+	return render_template('tutors_user.html', name=name, username=username, results=results, rating=rating)
 
 @app.route('/courses/')
 def courses_page():

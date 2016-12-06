@@ -24,17 +24,19 @@
 					Description: {{ description }}
 				</div>
 				{% for tutor in tutors %}
-					<div class="row tutor-card" style="margin-bottom: 12px;">
-						<div class="col-xs">
-							{{ tutor['TutorName']  }}
+					<a href="/tutors/{{ tutor['TutorUsername'] }}" class="nolink">
+						<div class="row tutor-card" style="margin-bottom: 12px;">
+							<div class="col-xs">
+								{{ tutor['TutorName']  }}
+							</div>
+							<div class="col-xs">
+								{{ tutor['TutorUsername']  }}
+							</div>
+							<div class="col-xs">
+								Overall Rating: {{ tutor['TutorRating'] }} | Price: {{ tutor['Rate'] }}
+							</div>
 						</div>
-						<div class="col-xs">
-							{{ tutor['TutorUsername']  }}
-						</div>
-						<div class="col-xs">
-							Overall Rating: {{ tutor['TutorRating'] }} | Price: {{ tutor['Rate'] }}
-						</div>
-					</div>
+					</a>
 				{% endfor %}
 	</div>
 {% endblock %}
